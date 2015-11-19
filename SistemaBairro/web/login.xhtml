@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html 
+xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html">
+	<h:head>
+		<title>Sistema Controle de Frequência</title>
+		<ui:include src="partial_header.xhtml" />
+	</h:head>
+	<h:body>
+		<div class="container container-signin">
+			<h:form>
+		    	<ui:include src="partial_messages.xhtml" />
+		    
+		    	<div class="form-signin">
+					<div class="form-group">
+						<h:inputText id="usuario" value="#{autenticacaoMB.login}" styleClass="form-control usuario">
+							<f:validator validatorId="requiredValidator" />
+						</h:inputText>
+					</div>
+					<div class="form-group">
+						<h:inputSecret id="senha" value="#{autenticacaoMB.senha}" styleClass="form-control senha">
+							<f:validator validatorId="requiredValidator" />
+						</h:inputSecret>
+					</div>
+	
+					<h:commandButton action="#{autenticacaoMB.logar}" value="Logar" styleClass="btn btn-lg btn-primary btn-block" />
+				</div>
+			</h:form>
+		</div>
+		<div class="loader"></div>
+		<ui:include src="partial_footer.xhtml" />
+	</h:body>
+</html>

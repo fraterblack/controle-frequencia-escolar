@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="usuarios" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="usuarios">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Minha Conta</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <div class="form-inputs-container">
+					    	
+					    	<ui:include src="partial_messages.xhtml" />
+
+							<div class="row">
+								<div class="form-group col-md-8 col-sm-12">
+									<label>Nome:</label>
+									<h:inputText id="nomeUsuario" tabindex="1" value="#{minhaContaMB.nome}" styleClass="form-control input-sm">
+										<f:validator validatorId="requiredValidator" />
+									</h:inputText>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-4 col-sm-6">
+									<label>Login:</label>
+									<h:inputText id="login" tabindex="2" value="#{minhaContaMB.login}" styleClass="form-control input-sm" validatorMessage="login: Informe um login com no mínimo 6 caracteres">
+										<f:validator validatorId="requiredValidator" />
+									</h:inputText>
+								</div>
+				
+								<div class="form-group col-md-4 col-sm-6">
+									<label>Senha:</label>
+									<h:inputSecret id="senha" tabindex="3" value="#{minhaContaMB.senha}" styleClass="form-control input-sm" validatorMessage="senha: Informe uma senha com no mínimo 6 caracteres">
+									</h:inputSecret>
+									<span id="helpBlock" class="help-block">Só preencha se deseja alterar sua senha.</span>
+								</div>
+							</div>
+							
+							<div class="form-group btn-group-actions">
+								<h:commandButton tabindex="4" action="#{minhaContaMB.salvar}" value="Salvar" styleClass="btn btn-primary btn-sm" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

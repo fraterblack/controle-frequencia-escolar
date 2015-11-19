@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="turmas" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="turmas">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Cadastro de Disciplinas</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <div class="form-inputs-container">
+					    
+					    	<ui:include src="partial_messages.xhtml" />
+					    
+							<h:inputHidden value="#{cadDisciplinaMB.codDisciplina}"/>
+							<div class="row">
+								<div class="form-group col-lg-6 col-md-6 col-sm-9">
+									<label>Nome:</label>
+									<h:inputText id="nomeDisciplina" tabindex="1" value="#{cadDisciplinaMB.nomeDisciplina}" maxlength="50" styleClass="form-control input-sm">
+										<f:validator validatorId="requiredValidator" />
+									</h:inputText>
+								</div>
+							</div>
+							
+							<div class="form-group btn-group-actions">
+								<h:commandButton tabindex="3" action="#{cadDisciplinaMB.gravarDisciplina}" value="Gravar" styleClass="btn btn-primary btn-sm" />
+								<h:commandButton rendered="#{cadDisciplinaMB.modoEdicao}" action="#{cadDisciplinaMB.limpar}" value="Cancelar" styleClass="btn btn-default btn-sm" />
+							</div>
+						</div>
+						<hr />
+						
+						<div class="row search-container">
+							<div class="col-lg-3 col-md-4 col-xs-6">
+								<div class="input-group">
+									<h:inputText id="filtroBusca" styleClass="form-control input-sm input-search" value="#{cadDisciplinaMB.palavraBusca}" />
+									<span class="input-group-btn">
+										<h:commandLink styleClass="btn btn-default btn-sm button-search" action="#{cadDisciplinaMB.buscar}"><i class="fa fa-search"></i>
+											<f:param name="skipValidator" value="true" />
+										</h:commandLink>
+									</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="table-responsive">
+							<h:dataTable styleClass="table table-condensed table-striped" columnClasses="text-center,,text-center" value="#{cadDisciplinaMB.listaDisciplinas}" var="disciplina">
+								<h:column headerClass="text-center codigo">
+									<f:facet name="header">Código</f:facet>
+									<h:outputText value="#{disciplina.codDisciplina}"/>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Nome</f:facet>
+									<h:outputText value="#{disciplina.nomeDisciplina}"/>
+								</h:column>
+								<h:column headerClass="text-center acoes">
+									<f:facet name="header">Ações</f:facet>
+									<h:commandLink styleClass="btn btn-default btn-xs" action="#{cadDisciplinaMB.editar(disciplina)}"><i class="fa fa-edit"></i>
+										<f:param name="skipValidator" value="true" />
+									</h:commandLink> | 
+									<h:commandLink styleClass="btn btn-danger btn-outline btn-xs" action="#{cadDisciplinaMB.excluir(disciplina)}" immediate="true" onclick="if(!confirm('Deseja realmente excluir?')){ return false; }"><i class="fa fa-trash"></i></h:commandLink>
+								</h:column>
+							</h:dataTable>
+						</div>
+						
+						<nav class="#{cadDisciplinaMB.numberPages gt 1 ? '' : 'display-none'}">
+							<ul class="pagination pagination-sm">
+								<ui:repeat var="page" value="#{cadDisciplinaMB.pages}">
+									<li class="#{page == (cadDisciplinaMB.pagingPage+1) ? 'active': ''}">
+										<h:commandLink value="#{page}" immediate="true" actionListener="#{cadDisciplinaMB.page}" />
+									</li>
+								</ui:repeat>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

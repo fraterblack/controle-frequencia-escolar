@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <nav class="navbar-default navbar-static-side" role="navigation">
+	    <div class="sidebar-collapse collapse">
+	        <ul class="nav" id="side-menu">
+	        	<li><a href="cadastrochamadas.faces" class="#{paginaAtual == 'chamadas' ? 'active' : ''}">
+	            <i class="fa fa-check-square-o fa-fw"></i> <strong>Chamadas</strong>
+	            </a></li>
+	            <li class="has-second-level">
+	            	<a href="frequenciaporturma.faces" class="#{paginaAtual == 'frequencia' ? 'active' : ''}"><i class="fa fa-calendar fa-fw"></i> <strong>Frequência</strong> <span class="fa arrow"></span></a>
+	            	<ul class="nav nav-second-level collapse #{paginaAtual == 'frequencia' ? 'in' : ''}">
+	                    <li><a href="frequenciaporturma.faces"><i class="fa fa-file-text-o fa-fw"></i> por Turma</a></li>
+	                    <li><a href="frequenciapordisciplina.faces"><i class="fa fa-file-text-o fa-fw"></i> por Disciplina</a></li>
+	                    <li><a href="frequenciaporaluno.faces"><i class="fa fa-file-text-o fa-fw"></i> por Aluno</a></li>
+	                </ul>
+	            </li>
+	            <li class="#{autenticacaoMB.usuario.tipo == 'p' ? 'display-none' : ''}"><a href="cadastromatriculas.faces" class="#{paginaAtual == 'matriculas' ? 'active' : ''}">
+	            <i class="fa fa-book fa-fw"></i> <strong>Matrículas</strong>
+	            </a></li>
+	            <li class="has-second-level #{autenticacaoMB.usuario.tipo == 'p' ? 'display-none' : ''}">
+	            	<a href="cadastroturmas.faces" class="#{paginaAtual == 'turmas' ? 'active' : ''}"><i class="fa fa-users fa-fw"></i> <strong>Turmas</strong> <span class="fa arrow"></span></a>
+	            	<ul class="nav nav-second-level collapse #{paginaAtual == 'turmas' ? 'in' : ''}">
+	                    <li><a href="gerenciarturmas.faces"><i class="fa fa-gears fa-fw"></i> Gerenciar Turmas</a></li>
+	                    <li><a href="cadastroturmas.faces"><i class="fa fa-users fa-fw"></i> Cadastro Turmas</a></li>
+	                    <li><a href="cadastrodisciplinas.faces"><i class="fa fa-tags fa-fw"></i> Cadastro Disciplinas</a></li>
+	                </ul>
+	            </li>
+	            <li class="#{autenticacaoMB.usuario.tipo == 'p' ? 'display-none' : ''}"><a href="cadastroalunos.faces" class="#{paginaAtual == 'alunos' ? 'active' : ''}">
+	            <i class="fa fa-graduation-cap fa-fw"></i> <strong>Alunos</strong>
+	            </a></li>
+	            <li class="#{autenticacaoMB.usuario.tipo == 'a' ? '' : 'display-none'}"><a href="cadastrousuarios.faces" class="#{paginaAtual == 'usuarios' ? 'active' : ''}">
+	            <i class="fa fa-user fa-fw"></i> <strong>Usuários</strong>
+	            </a></li>
+	        </ul>
+	    </div>
+	</nav>
+</ui:composition>

@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="usuarios" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="usuarios">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Cadastro de Usuários</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <div class="form-inputs-container">
+					    	
+					    	<ui:include src="partial_messages.xhtml" />
+					    	
+							<h:inputHidden value="#{cadUsuarioMB.codUsuario}"/>
+							<div class="row">
+								<div class="form-group col-lg-4 col-md-6">
+									<label>Tipo:</label>
+									<h:selectOneMenu tabindex="1" id="tipo" value="#{cadUsuarioMB.tipo}" styleClass="form-control input-sm">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{cadUsuarioMB.listaTiposDeUsuarios}" var="t" itemLabel="#{t.label}"  itemValue="#{t.value}" />
+										
+										<f:validator validatorId="requiredValidator" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-8 col-sm-12">
+									<label>Nome:</label>
+									<h:inputText id="nomeUsuario" tabindex="2" value="#{cadUsuarioMB.nome}" styleClass="form-control input-sm">
+										<f:validator validatorId="requiredValidator" />
+									</h:inputText>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-4 col-sm-6">
+									<label>Login:</label>
+									<h:inputText id="login" tabindex="3" value="#{cadUsuarioMB.login}" styleClass="form-control input-sm" validatorMessage="login: Informe um login com no mínimo 6 caracteres">
+										<f:validator validatorId="requiredValidator" />
+									</h:inputText>
+								</div>
+				
+								<div class="form-group col-md-4 col-sm-6">
+									<label>Senha:</label>
+									<h:inputSecret id="senha" tabindex="4" value="#{cadUsuarioMB.senha}" styleClass="form-control input-sm" validatorMessage="senha: Informe uma senha com no mínimo 6 caracteres">
+										<f:validator disabled="#{cadUsuarioMB.modoEdicao}" validatorId="requiredValidator" />
+									</h:inputSecret>
+									<span id="helpBlock" class="help-block">Só preencha se deseja alterar a senha.</span>
+								</div>
+							</div>
+							
+							<div class="form-group btn-group-actions">
+								<h:commandButton tabindex="4" action="#{cadUsuarioMB.gravarUsuario}" value="Gravar" styleClass="btn btn-primary btn-sm" />
+								<h:commandButton rendered="#{cadUsuarioMB.modoEdicao}" action="#{cadUsuarioMB.limpar}" value="Cancelar" styleClass="btn btn-default btn-sm" />
+							</div>
+						</div>
+						<hr />
+						
+						<div class="table-responsive">
+							<h:dataTable styleClass="table table-condensed table-striped" columnClasses="text-center,,,text-center,text-center" value="#{cadUsuarioMB.listaUsuarios}" var="usuario">
+								<h:column headerClass="text-center codigo">
+									<f:facet name="header">Código</f:facet>
+									<h:outputText value="#{usuario.codUsuario}"/>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Nome</f:facet>
+									<h:outputText value="#{usuario.nome}"/>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Tipo</f:facet>
+									<h:outputText value="#{cadUsuarioMB.getTipoUsuario(usuario.tipo)}" />
+									<!-- h:outputText value="Supervisor" rendered="#{usuario.tipo == 's'}" / -->
+									<!-- h:outputText value="Administrador" rendered="#{usuario.tipo == 'a'}" / -->
+								</h:column>
+								<h:column headerClass="text-center acoes">
+									<f:facet name="header">Ações</f:facet>
+						
+									<h:commandLink styleClass="btn btn-default btn-xs" action="#{cadUsuarioMB.editar(usuario)}"><i class="fa fa-edit"></i>
+										<f:param name="skipValidator" value="true" />
+									</h:commandLink> | 
+									<h:commandLink styleClass="btn btn-danger btn-outline btn-xs" action="#{cadUsuarioMB.excluir(usuario)}" immediate="true" onclick="if(!confirm('Deseja realmente excluir?')){ return false; }"><i class="fa fa-trash"></i></h:commandLink>
+								</h:column>
+							</h:dataTable>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

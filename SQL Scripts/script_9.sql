@@ -1,0 +1,2 @@
+ALTER TABLE frequencia_aluno ADD COLUMN falta_justificada varchar(1) NOT NULL AFTER presente;
+ALTER TABLE frequencia_aluno ADD COLUMN observacao varchar(100) NOT NULL default '' AFTER falta_justificada;

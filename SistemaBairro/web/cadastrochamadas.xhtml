@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="chamadas" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="chamadas">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Chamadas</h4>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <div class="form-inputs-container">
+
+					    	<ui:include src="partial_messages.xhtml" />
+					    
+							<div class="row">
+								<div class="form-group col-lg-2 col-md-3 col-sm-3 col-xs-7">
+									<label>Data:</label>
+									<div class="input-group">
+										<h:inputText id="filtroData" tabindex="2" styleClass="form-control input-date input-sm" value="#{cadChamadaMB.dataAula}" valueChangeListener="#{cadChamadaMB.changeListener}">
+											<f:convertDateTime for="filtroData" pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+											<f:validator validatorId="requiredValidator" />
+											<f:ajax event="change" render="tabela tabela2 chamadaRealizada" />
+										</h:inputText>
+										<span class="input-group-btn">
+											<button class="btn btn-sm btn-default open-calendar" type="button"><span class="fa fa-calendar"></span></button>
+										</span>
+									</div>
+								</div>
+								<div class="form-group col-lg-4 col-sm-4">
+									<label>Turma:</label>
+									<h:selectOneMenu id="filtroTurma" tabindex="1" value="#{cadChamadaMB.codTurma}" styleClass="form-control input-sm" valueChangeListener="#{cadChamadaMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{cadChamadaMB.listaTurmas}" var="t" itemLabel="#{t.nomeTurma} - #{t.anoTurma}"  itemValue="#{t.codTurma}" />
+										<f:validator validatorId="requiredValidator" />
+										<f:ajax event="change" render="filtroDisciplina tabela tabela2 chamadaRealizada" />
+									</h:selectOneMenu>
+								</div>
+								<div class="form-group col-lg-4 col-sm-4">
+									<label>Disciplina:</label>
+									<h:selectOneMenu id="filtroDisciplina" tabindex="1" value="#{cadChamadaMB.codDiscTurma}" styleClass="form-control input-sm" valueChangeListener="#{cadChamadaMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{cadChamadaMB.listaDisciplinasDaTurma}" var="d" itemLabel="#{d.disciplina.nomeDisciplina}"  itemValue="#{d.codDiscTurma}" />
+										<f:validator validatorId="requiredValidator" />
+										<f:ajax event="change" render="tabela tabela2 chamadaRealizada" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+							<h:outputText styleClass="chamada-realizada text-primary" id="chamadaRealizada" value="#{cadChamadaMB.chamadaRealizada}" />
+
+							<h:dataTable id="tabela" styleClass="table table-condensed table-striped tabela-chamada" columnClasses=",text-center,text-center,observacoes" value="#{cadChamadaMB.listaDePresenca}" var="chamada">
+								<h:column>
+									<f:facet name="header">Aluno</f:facet>
+									<h:outputText value="#{chamada.aluno.nomeAluno}" />
+								</h:column>
+								<h:column headerClass="marcador text-center">
+									<f:facet name="header">Presença</f:facet>
+									<h:selectBooleanCheckbox styleClass="check-presenca" disabled="#{cadChamadaMB.desabilitaPresenca}" value="#{chamada.estaPresente}" />
+								</h:column>
+								<h:column headerClass="marcador text-center">
+									<f:facet name="header">Falta Justif.</f:facet>
+									<h:selectBooleanCheckbox styleClass="check-falta-justificada #{chamada.estaPresente || cadChamadaMB.desabilitaObservacao ? 'disabled' : ''}"  disabled="#{cadChamadaMB.desabilitaObservacao ? true : false}" value="#{chamada.faltaJustificada}" />
+								</h:column>
+								<h:column headerClass="observacoes">
+									<f:facet name="header">Observação</f:facet>
+									<h:inputText disabled="#{cadChamadaMB.desabilitaObservacao}" value="#{chamada.observacao}" styleClass="form-control input-sm" />
+								</h:column>
+							</h:dataTable>
+			
+							<div class="form-group">
+								<h:commandButton action="#{cadChamadaMB.gravarChamada}" value="Gravar" styleClass="btn btn-primary btn-sm" />
+							</div>
+					    </div>
+						<hr />
+						
+						<div class="page-header page-title">
+							<h5>Chamadas realizadas</h5>
+						</div>
+						<div class="table-responsive">
+							<h:dataTable id="tabela2" styleClass="table table-condensed table-striped" value="#{cadChamadaMB.chamadasRealizadas}" var="aula">
+								<h:column>
+									<f:facet name="header">Data</f:facet>
+									<h:outputText id="dataAula" value="#{aula.dataAula}">
+										<f:convertDateTime for="dataAula" pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Feita por</f:facet>
+									<h:outputText value="#{aula.usuario.nome}" />
+								</h:column>
+							</h:dataTable>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="frequencia" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="frequencia">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Frequência por Aluno</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="form-inputs-container">
+							<div class="row">
+								<div class="form-group col-md-5">
+									<label>Turma:</label>
+									<h:selectOneMenu id="filtroTurma" tabindex="1" value="#{gerFrequenciaPorAlunoMB.codTurma}" styleClass="form-control input-sm" valueChangeListener="#{gerFrequenciaPorAlunoMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{gerFrequenciaPorAlunoMB.listaDeTurmas}" var="t" itemLabel="#{t.nomeTurma} - #{t.anoTurma}"  itemValue="#{t.codTurma}" />
+										<f:ajax event="change" render="filtroAluno tabela" />
+									</h:selectOneMenu>
+								</div>
+								<div class="form-group col-sm-4">
+									<label>Aluno:</label>
+									<h:selectOneMenu id="filtroAluno" tabindex="2" value="x" styleClass="form-control input-sm" valueChangeListener="#{gerFrequenciaPorAlunoMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{gerFrequenciaPorAlunoMB.listaMatriculas}" var="m" itemLabel="#{m.aluno.nomeAluno}"  itemValue="#{m.aluno.codAluno}" />
+										<f:validator validatorId="requiredValidator" />
+										<f:ajax event="change" render="tabela" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						
+						<div class="table-responsive">
+							<h:dataTable id="tabela" styleClass="table table-condensed table-striped" columnClasses=",,text-center" value="#{gerFrequenciaPorAlunoMB.listaFrequenciaAluno}" var="frequencia">
+								<h:column headerClass="data-aula">
+									<f:facet name="header">Data</f:facet>
+									<h:outputText styleClass="text-primary" value="#{frequencia.dataAula}" rendered="#{frequencia.dataAula == '' ? false : true}">
+										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Disciplina</f:facet>
+									<h:outputText value="#{frequencia.disciplina.nomeDisciplina}"  rendered="#{frequencia.disciplina == '' ? false : true}" />
+								</h:column>
+								<h:column headerClass="text-center indicador">
+									<f:facet name="header">Presença</f:facet>
+									<h:outputText styleClass="text-upper" value="#{frequencia.presenca}" />
+								</h:column>
+								<h:column headerClass="text-center observacao">
+									<i class="fa fa-info observacao #{frequencia.observacao == '' ? 'display-none' : ''}" title="#{frequencia.observacao}"></i>
+								</h:column>
+							</h:dataTable>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

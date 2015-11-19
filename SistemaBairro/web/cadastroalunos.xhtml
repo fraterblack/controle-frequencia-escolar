@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="alunos" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="alunos">
+			<h:form styleClass="form-registration">
+				<div class="page-header page-title">
+					<h4>Cadastro de Alunos</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <div class="form-inputs-container">
+					    
+					    	<ui:include src="partial_messages.xhtml" />
+					    
+							<h:inputHidden value="#{cadAlunoMB.codAluno}"/>
+							<div class="row">
+								<div class="form-group col-md-7 col-sm-12">
+									<label>Nome:</label>
+									<h:inputText id="nomeAluno" tabindex="1" value="#{cadAlunoMB.nomeAluno}" styleClass="form-control input-sm">
+										<f:validator validatorId="requiredValidator" />
+									</h:inputText>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-lg-2 col-md-3 col-sm-3 col-xs-7">
+									<label>Data Nascimento:</label>
+									<div class="input-group">
+										<h:inputText id="dataNascimento" tabindex="2" value="#{cadAlunoMB.dataNascimento}" styleClass="form-control input-date input-sm">
+											<f:validator validatorId="requiredValidator" />
+											<f:convertDateTime for="dataNascimento" pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+										</h:inputText>
+										<span class="input-group-btn">
+											<button class="btn btn-sm btn-default open-calendar" type="button"><span class="fa fa-calendar"></span></button>
+										</span>
+									</div>
+								</div>
+				
+								<div class="form-group col-lg-5 col-md-4 col-sm-6">
+									<label>Documento:</label>
+									<h:inputText id="documentoAluno" tabindex="3" value="#{cadAlunoMB.docId}" styleClass="form-control input-sm">
+										<f:validator validatorId="requiredValidator" />
+									</h:inputText>
+								</div>
+							</div>
+							
+							<div class="form-group btn-group-actions">
+								<h:commandButton tabindex="4" action="#{cadAlunoMB.gravarAluno}" value="Gravar" styleClass="btn btn-primary btn-sm" />
+								<h:commandButton rendered="#{cadAlunoMB.modoEdicao}" action="#{cadAlunoMB.limpar}" value="Cancelar" styleClass="btn btn-default btn-sm" />
+							</div>
+						</div>
+						<hr />
+						
+						<div class="row search-container">
+							<div class="col-lg-3 col-md-4 col-xs-6">
+								<div class="input-group">
+									<h:inputText id="filtroBusca" styleClass="form-control input-sm input-search" value="#{cadAlunoMB.palavraBusca}" />
+									<span class="input-group-btn">
+										<h:commandLink styleClass="btn btn-default btn-sm button-search" action="#{cadAlunoMB.buscar}"><i class="fa fa-search"></i>
+											<f:param name="skipValidator" value="true" />
+										</h:commandLink>
+									</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="table-responsive">
+							<h:dataTable styleClass="table table-condensed table-striped" columnClasses="text-center,,,text-center,text-center" value="#{cadAlunoMB.listaAlunos}" var="aluno">
+								<h:column headerClass="text-center codigo">
+									<f:facet name="header">Código</f:facet>
+									<h:outputText value="#{aluno.codAluno}"/>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Nome</f:facet>
+									<h:outputText value="#{aluno.nomeAluno}"/>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Documento</f:facet>
+									<h:outputText value="#{aluno.docId}"/>
+								</h:column>
+								<h:column headerClass="text-center">
+									<f:facet name="header">Data Nascimento</f:facet>
+									<h:outputText id="dataNascimento" value="#{aluno.dataNascimento}">
+										<f:convertDateTime for="dataNascimento" pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+									</h:outputText>
+								</h:column>
+								<h:column headerClass="text-center acoes">
+									<f:facet name="header">Ações</f:facet>
+						
+									<h:commandLink styleClass="btn btn-default btn-xs" action="#{cadAlunoMB.editar(aluno)}"><i class="fa fa-edit"></i>
+										<f:param name="skipValidator" value="true" />
+									</h:commandLink> | 
+									<h:commandLink styleClass="btn btn-danger btn-outline btn-xs" action="#{cadAlunoMB.excluir(aluno)}" immediate="true" onclick="if(!confirm('Deseja realmente excluir?')){ return false; }"><i class="fa fa-trash"></i></h:commandLink>
+								</h:column>
+							</h:dataTable>
+						</div>
+						
+						<nav class="#{cadAlunoMB.numberPages gt 1 ? '' : 'display-none'}">
+							<ul class="pagination pagination-sm">
+								<ui:repeat var="page" value="#{cadAlunoMB.pages}">
+									<li class="#{page == (cadAlunoMB.pagingPage+1) ? 'active': ''}">
+										<h:commandLink value="#{page}" immediate="true" actionListener="#{cadAlunoMB.page}" />
+									</li>
+								</ui:repeat>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

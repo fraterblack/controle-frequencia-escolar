@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="discTurmas" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="discTurmas">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Gerenciar Turmas</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <div class="form-inputs-container">
+					    
+					    	<ui:include src="partial_messages.xhtml" />
+					    
+							<h:inputHidden value="#{gerTurmasMB.codDiscTurma}"/>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label>Turma:</label>
+									<h:selectOneMenu tabindex="1" id="filtroTurma" value="#{gerTurmasMB.codTurma}" styleClass="form-control input-sm" valueChangeListener="#{gerTurmasMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{gerTurmasMB.listaTurmas}" var="t" itemLabel="#{t.nomeTurma} - #{t.anoTurma}" itemValue="#{t.codTurma}" />
+										<f:validator validatorId="requiredValidator" />
+										<f:ajax event="change" render="filtroDisciplina tabela" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label>Disciplina:</label>
+									<h:selectOneMenu tabindex="2" id="filtroDisciplina" value="#{gerTurmasMB.codDisciplina}" styleClass="form-control input-sm" valueChangeListener="#{gerTurmasMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{gerTurmasMB.listaDisciplinasNaoLigadasATurma}" var="a" itemLabel="#{a.nomeDisciplina}" itemValue="#{a.codDisciplina}" />
+										<f:validator validatorId="requiredValidator" />
+										<f:ajax event="change" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+								
+							<div class="form-group">
+								<h:commandButton tabindex="3" action="#{gerTurmasMB.gravarDiscTurma}" value="Gravar" styleClass="btn btn-primary btn-sm" />
+							</div>
+						</div>
+						<hr />
+						
+						<div class="table-responsive">
+							<h:dataTable id="tabela" styleClass="table table-condensed table-striped" columnClasses=",text-center" value="#{gerTurmasMB.listaDisciplinasDaTurma}" var="discTurma">
+								<h:column>
+									<f:facet name="header">Disciplina</f:facet>
+									<h:outputText value="#{discTurma.disciplina.nomeDisciplina}"/>
+								</h:column>
+								<h:column headerClass="text-center acoes">
+									<f:facet name="header">Ações</f:facet>
+									<h:commandLink styleClass="btn btn-danger btn-outline btn-xs" immediate="true" action="#{gerTurmasMB.excluir(discTurma)}" onclick="if(!confirm('Deseja realmente excluir?')){ return false; }">
+										<i class="fa fa-trash"></i>
+									</h:commandLink>
+								</h:column>
+							</h:dataTable>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

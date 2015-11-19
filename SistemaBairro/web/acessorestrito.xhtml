@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="usuarios" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="usuarios">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Acesso Restrito</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <p>Você não tem permissão para acessar a página.</p>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

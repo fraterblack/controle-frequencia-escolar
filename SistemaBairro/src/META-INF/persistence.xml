@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+		
+		 <persistence-unit name="gerenciadorDS" transaction-type="JTA">
+		 <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		 <!-- Não se esqueça de informar ao persistence.xml qual datasource você estará usando, para isso siga o exemplo abaixo: -->
+         <jta-data-source>java:jboss/datasources/gerenciadorDS</jta-data-source>
+		 <!-- GLASSFISH -->
+        <!--jta-data-source>jdbc/cursoDS</jta-data-source--> 
+		 
+		 <!-- <class>br.com.app01.model.entities.Aluno</class>
+		 <class>br.com.app01.model.entities.Turma</class>
+		 <class>br.com.app01.model.entities.Matricula</class>
+		 <class>br.com.app01.model.entities.Frequencia</class>
+		 <class>br.com.app01.model.entities.FrequenciaAluno</class> -->
+		 
+		 <!--<class>com.app01.model.Strategy</class>
+		 <class>com.app01.model.vo.Pessoas</class>
+		 <class>com.app01.model.vo.Setores</class>
+		 <class>com.app01.model.vo.Cargos</class>
+		 <class>com.app01.model.vo.Funcionarios</class>-->
+		 
+		 <properties >
+		 	
+		 	<property name="javax.persistence.validation.mode" value="NONE" />
+		 	
+			 <property name ="hibernate.show_sql" value ="true" />
+			 <property name ="hibernate.format_sql" value ="true" />
+			 <property name ="hibernate.dialect" value ="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+			 <!--  atualiza o banco, gera as tabelas se for preciso -->
+			 <!--property name ="hibernate.hbm2ddl.auto" value ="update" /-->
+		 </properties>
+		 </persistence-unit>
+</persistence>

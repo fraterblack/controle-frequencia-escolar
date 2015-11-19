@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="base.xhtml">
+    <ui:param name="paginaAtual" value="matriculas" />
+    <ui:define name="commonBodyContent">
+
+		<div id="page-wrapper" class="matriculas">
+			<h:form>
+				<div class="page-header page-title">
+					<h4>Matrícula de Alunos</h4>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+					    <div class="form-inputs-container">
+					    
+					    	<ui:include src="partial_messages.xhtml" />
+					    
+							<h:inputHidden value="#{cadMatriculaMB.codMatricula}"/>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label>Turma:</label>
+									<h:selectOneMenu tabindex="1" id="filtroTurma" value="#{cadMatriculaMB.codTurma}" styleClass="form-control input-sm" valueChangeListener="#{cadMatriculaMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{cadMatriculaMB.listaTurmas}" var="t" itemLabel="#{t.nomeTurma} - #{t.anoTurma}" itemValue="#{t.codTurma}" />
+										<f:validator validatorId="requiredValidator" />
+										<f:ajax event="change" render="filtroAluno tabela" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-6">
+									<label>Aluno:</label>
+									<h:selectOneMenu tabindex="2" id="filtroAluno" value="#{cadMatriculaMB.codAluno}" styleClass="form-control input-sm" valueChangeListener="#{cadMatriculaMB.changeListener}">
+										<f:selectItem itemValue="" itemLabel="Selecione" />
+										<f:selectItems value="#{cadMatriculaMB.listaAlunosNaoMatriculadosTurma}" var="a" itemLabel="#{a.nomeAluno}" itemValue="#{a.codAluno}" />
+										<f:validator validatorId="requiredValidator" />
+										<f:ajax event="change" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+								
+							<div class="form-group">
+								<h:commandButton tabindex="3" action="#{cadMatriculaMB.gravarMatricula}" value="Gravar" styleClass="btn btn-primary btn-sm" />
+							</div>
+						</div>
+						<hr />
+						
+						<div class="table-responsive">
+							<h:dataTable id="tabela" styleClass="table table-condensed table-striped" columnClasses=",,text-center" value="#{cadMatriculaMB.listaMatriculas}" var="matricula">
+								<h:column>
+									<f:facet name="header">Matrícula</f:facet>
+									<h:outputText value="#{matricula.codMatricula}"/>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Aluno</f:facet>
+									<h:outputText value="#{matricula.aluno.nomeAluno}"/>
+								</h:column>
+								<h:column headerClass="text-center acoes">
+									<f:facet name="header">Ações</f:facet>
+									<h:commandLink styleClass="btn btn-danger btn-outline btn-xs" immediate="true" action="#{cadMatriculaMB.excluir(matricula)}" onclick="if(!confirm('Deseja realmente excluir?')){ return false; }">
+										<i class="fa fa-trash"></i>
+									</h:commandLink>
+								</h:column>
+							</h:dataTable>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
