@@ -32,5 +32,5 @@ Algumas informações sobre tecnologias utilizadas:
 - Jdk 8
 - Jre 8
 - Banco de dados MySQL
-- WildFly 8.2
+- WildFly 8.2 (Quando testado no WildFly 10, houve uma exception com a biblioteca dom4j)
 - Bibliotecas utilizadas no projeto, estão [disponíveis aqui](https://github.com/fraterblack/projeto-java-curso/tree/master/resources/libs).
